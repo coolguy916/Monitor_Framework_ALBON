@@ -10,62 +10,60 @@
 
 ## 🚀 What Makes This Framework Special?
 
-Imagine having a monitoring system that's as flexible as a Swiss Army knife and as reliable as a lighthouse. This framework brings together the best of multiple worlds with a **clean modular architecture** that makes development a breeze:
+Imagine having a monitoring system that's as flexible as a Swiss Army knife and as reliable as a lighthouse. This framework brings together the best of multiple worlds:
 
-- **🧩 Modular Architecture**: Clean separation of concerns across dedicated modules
 - **🔄 Dual Database Support**: Switch between MySQL and Firebase with a single command
 - **⚡ Real-time Everything**: WebSocket communications that keep your data flowing
 - **🔗 Smart Serial Communication**: Auto-reconnecting, self-healing device connections
 - **🛡️ Fort Knox Security**: Built-in encryption for sensitive data
 - **🖥️ Desktop Ready**: Electron-powered interface for professional deployment
-- **📁 Organized Codebase**: Easy to maintain, test, and scale
 
-## 🏗️ New Modular Architecture That Actually Makes Sense
+## 🏗️ Architecture That Actually Makes Sense
 
 ```
 ┌─────────────────────────────────────────────────────────────────┐
 │                 🖥️  Electron Desktop Application                │
 ├─────────────┬─────────────────┬─────────────────┬───────────────┤
-│ 🧩 Modules  │ 💾 Database     │ 🌐 WebSocket    │ 🔌 Serial     │
-│ Manager     │    Manager      │    Manager      │    Manager    │
+│ 💾 Database │ 🌐 WebSocket    │ 🔌 Serial Comm │ 🚀 REST API   │
+│    Layer    │    Server       │    Handler      │    Server     │
 ├─────────────┼─────────────────┼─────────────────┼───────────────┤
-│ Clean Init  │ MySQL/Firebase  │ Real-time Data  │ Arduino/ESP32 │
-│ Lifecycle   │ Query Builder   │ Broadcasting    │ Auto-detection│
-│ Error Mgmt  │ Encryption      │ Client Mgmt     │ Smart Reconnect│
+│ MySQL       │ Real-time Data  │ Arduino/ESP32   │ External      │
+│ Firebase    │ Broadcasting    │ Auto-detection  │ Integration   │
+│ QueryBuilder│ Client Mgmt     │ Smart Reconnect │ Auth Ready    │
 └─────────────┴─────────────────┴─────────────────┴───────────────┘
 ```
 
-## 📁 **NEW Project Structure - Your Roadmap to Success**
+## 📁 **Project Structure - Your Roadmap to Success**
 
-Understanding the new modular structure is crucial for efficient development. Here's your complete project anatomy:
+Understanding where everything lives is crucial for efficient development. Here's your complete project anatomy:
 
 ```
 flow-meter-monitoring/
-├── 📋 main.js                          # 🚀 Clean application entry point (60 lines!)
+├── 📋 main.js                          # 🚀 Application entry point - Orchestrates all modules
 ├── 🔗 preload.js                       # 🌉 Bridge between frontend and backend
 ├── 📦 package.json                     # 📋 Dependencies and scripts
-├── 🔐 .env                            # ⚙️ Configuration secrets
+├── 🔐 .env                            # ⚙️ Configuration secrets (create from .env.example)
 ├── 🔐 .env.example                    # 📝 Template for environment variables
 ├── 🔧 firebaseConfig.js               # 🔥 Firebase configuration defaults
 ├── 📚 README.md                       # 📖 You are here!
 │
-├── 📂 modules/                        # 🧩 NEW: Modular Architecture
+├── 📂 modules/                        # 🧩 Modular Framework Components (NEW!)
 │   ├── 📂 database/                   # 💾 Database Management Module
-│   │   └── 🏗️ databaseManager.js     # 📊 Database initialization & lifecycle
+│   │   └── 🗄️ databaseManager.js     # 🏗️ Database initialization & lifecycle
 │   │
-│   ├── 📂 window/                     # 🖥️ Window Management Module  
-│   │   └── 🪟 windowManager.js       # 🎯 Electron window creation & management
+│   ├── 📂 window/                     # 🖥️ Window Management Module
+│   │   └── 🪟 windowManager.js       # 📊 Electron window creation & control
 │   │
 │   ├── 📂 api/                        # 🌐 API Server Module
-│   │   └── 🚀 apiServer.js           # 🔧 Express server setup & routing
+│   │   └── 🚀 apiServer.js           # 🔗 Express server setup & routing
 │   │
-│   ├── 📂 serial/                     # 🔌 Serial Communication Module
-│   │   └── 📡 serialManager.js       # 🎮 Serial device management & lifecycle
+│   ├── 📂 serial/                     # 📡 Serial Communication Module
+│   │   └── 🔌 serialManager.js       # 📟 Hardware communication orchestration
 │   │
 │   └── 📂 ipc/                        # 🌉 IPC Communication Module
-│       └── 💬 ipcManager.js          # 🔗 Frontend-backend communication hub
+│       └── 💬 ipcManager.js          # 🔄 Frontend-backend bridge handlers
 │
-├── 📂 lib/                            # 🏗️ Core Framework Libraries (Existing)
+├── 📂 lib/                            # 🏗️ Core Framework Libraries
 │   ├── 📂 db/                         # 💾 Database Abstraction Layer
 │   │   ├── 🗄️ mysqlDB.js             # 🐬 MySQL database handler + Query Builder
 │   │   └── 🔥 firebaseDB.js          # 🔥 Firebase Realtime DB handler + Query Builder
@@ -74,209 +72,453 @@ flow-meter-monitoring/
 │       ├── 🔌 serialCommunicator.js   # 📡 Arduino/ESP32/Device communication
 │       └── 🌐 webSocketHandler.js     # 💬 Real-time WebSocket server
 │
-├── 📂 controller/                     # 🎮 Business Logic Controllers (Existing)
+├── 📂 controller/                     # 🎮 Business Logic Controllers
 │   └── 📂 app/                        # 📱 Application-specific controllers
 │       ├── 🔐 authController.js       # 👤 User authentication & JWT handling
 │       ├── 🗄️ databaseController.js   # 💾 Generic database operations
 │       └── 📱 mauiController.js       # 📲 MAUI/Mobile app integration
 │
-├── 📂 resource/                       # 🎨 Frontend Resources (Existing)
+├── 📂 resource/                       # 🎨 Frontend Resources
 │   └── 📂 view/                       # 👁️ User Interface Files
 │       └── 📂 uibaru/                 # 🎨 New UI Components
 │           ├── 🖥️ monitor.html        # 📊 Main monitoring dashboard
 │           ├── 🎨 style.css           # 💄 Dashboard styling
 │           └── ⚡ script.js           # 🧠 Frontend logic & real-time updates
 │
-├── 📂 scripts/                        # 🔧 Utility Scripts (Existing)
+├── 📂 scripts/                        # 🔧 Utility Scripts
 │   └── 🔄 switch-db.js               # 🎛️ Database switching utility
 │
 └── 📂 node_modules/                   # 📦 Dependencies (auto-generated)
 ```
 
-## 🎯 **NEW Modular File Guide - Know What You're Editing**
+## 🎯 **File Purpose Guide - Know What You're Editing**
 
-### 🚀 **Core Application (Simplified!)**
+### 🚀 **Core Application Files**
 
-#### `main.js` - The Clean Command Center
+#### `main.js` - The Orchestrator (NEW MODULAR APPROACH!)
 ```javascript
-// 🎯 Purpose: Clean application bootstrap (reduced from 300+ to 60 lines!)
-// ✏️ Edit when: Adding new high-level modules, changing app lifecycle
-// 🔧 Contains: Module coordination, error handling, app lifecycle
+// 🎯 Purpose: Simplified application bootstrap using modular components
+// ✏️ Edit when: Adding new modules, changing initialization order, app-wide config
+// 🔧 Contains: Module orchestration, lifecycle management, error handling
 
+// Key sections to modify:
 class Application {
     async initialize() {
-        // Clean, organized initialization
+        // Add new module initializations here
         this.databaseManager = new DatabaseManager();
         this.windowManager = new WindowManager();
         this.apiServer = new APIServer();
-        this.serialManager = new SerialManager();
-        this.ipcManager = new IPCManager();
+        // Add your custom modules here
     }
 }
 ```
 
-### 🧩 **NEW Module System (`modules/`)**
+### 🧩 **Modular Components (`modules/`)**
 
 #### `modules/database/databaseManager.js` - Database Orchestrator
 ```javascript
-// 🎯 Purpose: Clean database initialization and lifecycle management
-// ✏️ Edit when: Changing database providers, adding connection logic
-// 🔧 Contains: DB initialization, connection management, provider switching
+// 🎯 Purpose: Centralized database initialization and management
+// ✏️ Edit when: Adding database configurations, switching logic, connection pooling
+// 🔧 Contains: Database initialization, connection management, cleanup
 
 class DatabaseManager {
     async initialize() {
-        // Handles both MySQL and Firebase initialization
-        // Clean error handling and logging
-        // Environment-based configuration
+        // Add custom database initialization logic
+        if (this.useFirebase) {
+            this.db = new FirebaseDB(/* config */);
+        } else {
+            this.db = new Database(/* config */);
+            await this.db.connect();
+        }
     }
     
-    getDatabase() { return this.db; }
-    async close() { /* Clean shutdown */ }
+    // Add custom database management methods
+    async switchDatabase(type) { /* switching logic */ }
+    async healthCheck() { /* health monitoring */ }
 }
-
-// Key sections to modify:
-- initialize()              // Add new database providers
-- getDatabase()            // Modify database access patterns
-- close()                  // Add cleanup logic
 ```
 
-#### `modules/window/windowManager.js` - Window Maestro
+#### `modules/window/windowManager.js` - Window Controller
 ```javascript
-// 🎯 Purpose: Electron window creation and management
-// ✏️ Edit when: Changing window behavior, adding new windows
-// 🔧 Contains: Window configuration, lifecycle management
+// 🎯 Purpose: Electron window lifecycle and configuration management
+// ✏️ Edit when: Changing window properties, adding new windows, menu customization
+// 🔧 Contains: Window creation, configuration, event handling
 
 class WindowManager {
     createWindow() {
-        // Clean window setup
-        // Fullscreen configuration
-        // Event handling
+        // Modify window configuration
+        this.mainWindow = new BrowserWindow({
+            width: 1000,
+            height: 700,
+            // Add custom window options
+        });
+        
+        // Add custom window event handlers
+        this.mainWindow.on('custom-event', this.handleCustomEvent);
     }
     
-    getMainWindow() { return this.mainWindow; }
+    // Add new window management methods
+    createSecondaryWindow() { /* additional windows */ }
+    toggleFullscreen() { /* window controls */ }
 }
-
-// Key sections to modify:
-- createWindow()           // Modify window properties
-- Window event handlers    // Add new window behaviors
 ```
 
-#### `modules/api/apiServer.js` - API Command Center
+#### `modules/api/apiServer.js` - API Orchestrator
 ```javascript
-// 🎯 Purpose: Express API server setup and route management
-// ✏️ Edit when: Adding new routes, middleware, or API features
-// 🔧 Contains: Route setup, middleware configuration, controller initialization
+// 🎯 Purpose: Express server setup, middleware, and route organization
+// ✏️ Edit when: Adding new routes, middleware, authentication, API versioning
+// 🔧 Contains: Server configuration, route setup, controller initialization
 
 class APIServer {
     setupRoutes() {
-        // Authentication routes
-        this.app.post('/api/auth/register', authController.register);
-        this.app.post('/api/auth/login', authController.login);
+        // Add new API routes
+        this.app.post('/api/v2/sensors', sensorController.createSensor);
+        this.app.get('/api/admin/stats', authMiddleware, adminController.getStats);
         
-        // Data routes
-        this.app.post('/api/sensor-data', dbController.insertSensorData);
+        // Add custom middleware
+        this.app.use('/api/secure', this.authenticateMiddleware);
     }
+    
+    // Add server management methods
+    addRoute(method, path, handler) { /* dynamic routing */ }
+    enableCORS(origins) { /* CORS configuration */ }
 }
-
-// Key sections to modify:
-- setupRoutes()            // Add new API endpoints
-- setupMiddleware()        // Add new middleware
-- initializeControllers()  // Wire up new controllers
 ```
 
 #### `modules/serial/serialManager.js` - Hardware Communication Hub
 ```javascript
-// 🎯 Purpose: Serial device management and lifecycle
-// ✏️ Edit when: Adding device types, changing communication protocols
-// 🔧 Contains: Serial configuration, connection management, data handling
+// 🎯 Purpose: Serial communication orchestration and device management
+// ✏️ Edit when: Adding device types, communication protocols, data parsing
+// ✏️ Contains: Serial configuration, connection management, data handling
 
 class SerialManager {
     async initialize() {
-        // Clean serial communicator setup
-        // Configuration from environment
-        // Automatic connection handling
+        // Configure serial communication
+        this.serialCommunicator = new SerialCommunicator(
+            this.config, 
+            this.database, 
+            this.mainWindow
+        );
+        
+        // Add custom device handlers
+        this.setupDeviceHandlers();
     }
     
-    getStatus() { /* Connection status */ }
-    async forceReconnect() { /* Reconnection logic */ }
+    // Add device-specific methods
+    handleArduinoData(data) { /* Arduino-specific parsing */ }
+    handleESP32Data(data) { /* ESP32-specific parsing */ }
+    addCustomDevice(config) { /* dynamic device addition */ }
 }
-
-// Key sections to modify:
-- getSerialConfig()        // Add new serial configurations
-- initialize()             // Modify connection logic
-- Device management methods // Add new device operations
 ```
 
-#### `modules/ipc/ipcManager.js` - Communication Bridge
+#### `modules/ipc/ipcManager.js` - Frontend-Backend Bridge
 ```javascript
-// 🎯 Purpose: Organized IPC handler management
-// ✏️ Edit when: Adding new frontend-backend communications
-// 🔧 Contains: Database IPC handlers, Serial IPC handlers
+// 🎯 Purpose: Organized IPC handler management and frontend communication
+// ✏️ Edit when: Adding new frontend-backend communications, data channels
+// 🔧 Contains: IPC handler organization, channel management, data validation
 
 class IPCManager {
     setupHandlers() {
         this.setupDatabaseHandlers();
         this.setupSerialHandlers();
+        this.setupCustomHandlers(); // Add your custom handlers
     }
     
-    setupDatabaseHandlers() {
-        // All database-related IPC handlers
-        ipcMain.handle('get-users', async () => { /* */ });
-        ipcMain.handle('post-data', async (event, table, data) => { /* */ });
+    setupCustomHandlers() {
+        // Add new IPC handlers
+        ipcMain.handle('custom-operation', async (event, data) => {
+            // Your custom backend operation
+            return { success: true, result: processedData };
+        });
+    }
+    
+    // Add handler categories
+    setupFileHandlers() { /* file operations */ }
+    setupSystemHandlers() { /* system operations */ }
+}
+```
+
+### 🏗️ **Core Framework Libraries (`lib/`)**
+
+#### `lib/db/mysqlDB.js` - MySQL Powerhouse
+```javascript
+// 🎯 Purpose: MySQL database operations with advanced Query Builder
+// ✏️ Edit when: Adding custom query methods, modifying encryption, adding validations
+// 🔧 Contains: Connection management, Query Builder class, encryption utilities
+
+// Key sections to modify:
+class QueryBuilder {
+    // Add custom query methods here
+    whereTemperature(min, max) { /* custom filtering */ }
+    withSensorData() { /* join sensor tables */ }
+}
+
+class Database {
+    encrypt(text) { /* modify encryption logic */ }
+    validate(data, rules) { /* add validation rules */ }
+}
+```
+
+#### `lib/db/firebaseDB.js` - Firebase Magic
+```javascript  
+// 🎯 Purpose: Firebase Realtime Database with MySQL-compatible Query Builder
+// ✏️ Edit when: Adding Firebase-specific optimizations, custom query methods
+// 🔧 Contains: Firebase connection, Query Builder for NoSQL, data transformation
+
+// Key sections to modify:
+class FirebaseQueryBuilder {
+    // Add Firebase-specific query methods
+    _applyClientFilters(data) { /* custom filtering logic */ }
+    whereFirebaseSpecific(field, value) { /* Firebase optimizations */ }
+}
+```
+
+#### `lib/com/serialCommunicator.js` - Hardware Whisperer
+```javascript
+// 🎯 Purpose: Smart serial device communication with auto-reconnection
+// ✏️ Edit when: Supporting new device types, changing data parsing, adding protocols
+// 🔧 Contains: Port management, data parsing, reconnection logic
+
+// Key sections to modify:
+_handleData(rawString) {
+    // Add new data format parsing
+    switch (this.config.dataType) {
+        case 'your-custom-format':
+            // Your parsing logic here
     }
 }
 
+_autoDetectAndConnect() {
+    // Add new device detection patterns
+    const potentialPorts = ports.filter(p => {
+        // Add your device identifiers
+    });
+}
+```
+
+#### `lib/com/webSocketHandler.js` - Real-time Maestro
+```javascript
+// 🎯 Purpose: WebSocket server for real-time data broadcasting  
+// ✏️ Edit when: Adding authentication methods, custom message types, client management
+// 🔧 Contains: Client management, message routing, authentication
+
 // Key sections to modify:
-- setupDatabaseHandlers()  // Add new database IPC methods
-- setupSerialHandlers()    // Add new serial IPC methods
-- Add new handler groups   // Organize by feature
+_handleClientMessage(ws, clientData, rawData) {
+    switch (message.type) {
+        case 'your-custom-type':
+            this._handleYourCustomType(ws, clientData, message);
+            break;
+    }
+}
+
+_validateSensorData(data) {
+    // Add custom validation logic
+}
 ```
 
-### 🏗️ **Core Libraries (Enhanced but Unchanged)**
+### 🎮 **Controllers (`controller/app/`)**
 
-#### `lib/db/mysqlDB.js` & `lib/db/firebaseDB.js` - Database Powerhouses
+#### `authController.js` - Security Guardian
 ```javascript
-// 🎯 Purpose: Database operations with advanced Query Builder (unchanged)
-// ✏️ Edit when: Adding custom query methods, modifying encryption
-// 🔧 Contains: Query Builder, connection management, encryption
+// 🎯 Purpose: User authentication, JWT tokens, security middleware
+// ✏️ Edit when: Adding new auth methods, changing token policies, adding user roles
+// 🔧 Contains: Login/register logic, JWT generation, middleware
 
-// Still the same powerful Query Builder:
-const users = await db.table('users')
-    .where('status', 'active')
-    .orderBy('created_at', 'desc')
-    .limit(10)
-    .get();
+// Key sections to modify:
+const authController = {
+    login: async (req, res) => {
+        // Add custom login logic
+        // Add multi-factor authentication
+        // Add OAuth integration
+    },
+    
+    register: async (req, res) => {
+        // Add custom registration validation
+        // Add email verification
+        // Add user role assignment
+    }
+};
 ```
 
-#### `lib/com/serialCommunicator.js` & `lib/com/webSocketHandler.js` - Communication Layer
+#### `databaseController.js` - Data Operations Center
 ```javascript
-// 🎯 Purpose: Hardware communication and WebSocket management (unchanged)
-// ✏️ Edit when: Adding protocols, changing data formats
-// 🔧 Contains: Device communication, real-time broadcasting
+// 🎯 Purpose: Generic database operations exposed to REST API
+// ✏️ Edit when: Adding data validation, custom endpoints, data transformations
+// 🔧 Contains: CRUD operations, data validation, error handling
 
-// Same powerful serial communication:
-const serialComm = new SerialCommunicator(config, db, mainWindow);
+// Key sections to modify:
+const dbController = {
+    insertSensorData: async (req, res) => {
+        // Add custom data validation
+        // Add data transformation
+        // Add business logic
+    }
+};
 ```
 
-## 🎯 **Benefits of the New Modular Structure**
+#### `mauiController.js` - Mobile Integration Hub
+```javascript
+// 🎯 Purpose: Handle requests from MAUI/mobile applications
+// ✏️ Edit when: Adding mobile-specific endpoints, data formatting for mobile
+// 🔧 Contains: Mobile-optimized responses, data formatting
 
-### 📈 **Development Benefits**
-- **🧹 Cleaner Code**: main.js reduced from 300+ lines to ~60 lines
-- **🔍 Easy Debugging**: Issues isolated to specific modules
-- **⚡ Faster Development**: Know exactly where to make changes
-- **🧪 Better Testing**: Test each module independently
+// Key sections to modify:
+const mauiController = {
+    genericDataHandler: async (req, res) => {
+        // Add mobile-specific data processing
+        // Add response optimization for mobile
+    }
+};
+```
 
-### 🔧 **Maintenance Benefits**
-- **📦 Separation of Concerns**: Each module has one responsibility
-- **🔄 Easy Updates**: Update database logic without touching API code
-- **🛠️ Modular Development**: Work on features in isolation
-- **🎯 Clear Structure**: New developers onboard faster
+### 🎨 **Frontend (`resource/view/uibaru/`)**
 
-### 🚀 **Scalability Benefits**
-- **➕ Easy Extension**: Add new modules without refactoring
-- **🔀 Swappable Components**: Replace modules with different implementations
-- **🏗️ Team Development**: Different teams can work on different modules
-- **📊 Performance Monitoring**: Monitor each module's performance separately
+#### `monitor.html` - Dashboard Canvas
+```html
+<!-- 🎯 Purpose: Main monitoring interface structure -->
+<!-- ✏️ Edit when: Adding new UI components, changing layout, adding charts -->
+<!-- 🔧 Contains: Dashboard structure, component containers, script includes -->
+
+<!-- Key sections to modify: -->
+<div id="sensor-dashboard">
+    <!-- Add new dashboard components here -->
+</div>
+
+<div id="connection-status">
+    <!-- Modify connection indicators -->
+</div>
+```
+
+#### `script.js` - Frontend Brain
+```javascript
+// 🎯 Purpose: Frontend logic, real-time updates, user interactions
+// ✏️ Edit when: Adding UI interactions, handling new data types, adding charts
+// 🔧 Contains: Real-time data handling, UI updates, event listeners
+
+// Key sections to modify:
+api.receive('serial-data-received', (data) => {
+    // Add custom data visualization
+    // Add real-time chart updates
+    // Add data filtering/processing
+});
+
+function updateDashboard(data) {
+    // Add new dashboard update logic
+    // Add data validation
+    // Add user notifications
+}
+```
+
+#### `style.css` - Visual Magic
+```css
+/* 🎯 Purpose: Dashboard styling and responsive design */
+/* ✏️ Edit when: Changing visual design, adding new components, improving UX */
+/* 🔧 Contains: Dashboard styling, animations, responsive layouts */
+
+/* Key sections to modify: */
+.sensor-card {
+    /* Modify sensor display cards */
+}
+
+.connection-indicator {
+    /* Modify connection status styling */
+}
+
+@media (max-width: 768px) {
+    /* Add mobile responsive design */
+}
+```
+
+### ⚙️ **Configuration Files**
+
+#### `.env` - Your Secret Vault
+```env
+# 🎯 Purpose: Environment-specific configuration and secrets
+# ✏️ Edit when: Changing database connections, API keys, feature toggles
+# 🔧 Contains: Database configs, API keys, feature flags
+
+# Key sections to modify:
+USE_FIREBASE=false              # Toggle database type
+MYSQL_HOST=localhost            # Change database connection
+SERIAL_PORT=COM3               # Configure serial port
+WS_PORT=8080                   # Change WebSocket port
+DB_ENCRYPTION_KEY=YourKey      # Update encryption key
+```
+
+#### `firebaseConfig.js` - Firebase Defaults
+```javascript
+// 🎯 Purpose: Default Firebase configuration values
+// ✏️ Edit when: Setting up Firebase project, changing default values
+// 🔧 Contains: Firebase project configuration
+
+module.exports = {
+    apiKey: "your-default-api-key",
+    authDomain: "your-project.firebaseapp.com",
+    // Add your Firebase project details
+};
+```
+
+## 🎯 **Common Editing Scenarios with Modular Approach**
+
+### 🔌 **Adding a New Serial Device Type**
+1. **Edit `modules/serial/serialManager.js`**: Add device-specific configuration and handlers
+2. **Edit `lib/com/serialCommunicator.js`**: Add device detection in `_autoDetectAndConnect()`
+3. **Edit `.env`**: Add device-specific configuration options
+4. **Edit `resource/view/uibaru/script.js`**: Add frontend handling for new device data
+
+### 📊 **Adding a New Dashboard Widget**
+1. **Edit `resource/view/uibaru/monitor.html`**: Add widget HTML structure
+2. **Edit `resource/view/uibaru/style.css`**: Add widget styling
+3. **Edit `resource/view/uibaru/script.js`**: Add widget update logic
+4. **Edit `modules/ipc/ipcManager.js`**: Add IPC handler if backend data needed
+
+### 🗄️ **Adding a New Database Table/Operations**
+1. **Edit `lib/db/mysqlDB.js` or `lib/db/firebaseDB.js`**: Add custom query methods
+2. **Edit `controller/app/databaseController.js`**: Add REST endpoints
+3. **Edit `modules/api/apiServer.js`**: Add new routes
+4. **Edit `modules/ipc/ipcManager.js`**: Add IPC handlers
+5. **Edit `preload.js`**: Expose new methods to frontend
+
+### 🔐 **Modifying Authentication**
+1. **Edit `controller/app/authController.js`**: Modify login/register logic
+2. **Edit `modules/api/apiServer.js`**: Update API authentication middleware
+3. **Edit `lib/com/webSocketHandler.js`**: Update WebSocket authentication
+4. **Edit `.env`**: Add new auth configuration options
+
+### 🌐 **Adding New WebSocket Message Types**
+1. **Edit `lib/com/webSocketHandler.js`**: Add message type handler
+2. **Edit `resource/view/uibaru/script.js`**: Add frontend message listener
+3. **Edit `preload.js`**: Add receive channel if needed
+
+### 🧩 **Creating a New Custom Module**
+1. **Create `modules/yourmodule/yourManager.js`**: Implement your module class
+2. **Edit `main.js`**: Add module to application initialization
+3. **Add module-specific configuration** to `.env`
+4. **Connect to other modules** as needed through the main application class
+
+## 💡 **Benefits of the New Modular Structure**
+
+### 🎯 **Better Organization**
+- **Cleaner main.js**: From 300+ lines to ~60 lines of orchestration code
+- **Focused modules**: Each module handles one specific responsibility
+- **Easier navigation**: Find exactly what you need without hunting through large files
+
+### 🔧 **Enhanced Maintainability**
+- **Isolated changes**: Modify database logic without touching serial communication
+- **Independent testing**: Test each module in isolation
+- **Clearer dependencies**: See exactly what each module needs
+
+### 🚀 **Improved Performance**
+- **Same runtime performance**: No additional overhead compared to monolithic structure
+- **Better memory management**: Modules can be garbage collected independently
+- **Faster development**: Smaller files load and process faster in IDEs
+
+### 📈 **Scalability Ready**
+- **Easy module addition**: Add new functionality without touching existing code
+- **Pluggable architecture**: Swap implementations easily (e.g., different databases)
+- **Team development**: Multiple developers can work on different modules simultaneously
+
+This modular approach gives you complete control over every aspect of your monitoring system while maintaining the same powerful functionality you had before - just organized in a way that scales with your project's growth!
 
 ## 🎯 Quick Start - Get Running in Minutes!
 
@@ -312,6 +554,7 @@ MYSQL_DATABASE=your_database
 # 🔥 Firebase Configuration (When you want Google's magic)
 FIREBASE_API_KEY=your_firebase_key
 FIREBASE_PROJECT_ID=your_project_id
+# ... more Firebase goodness
 
 # 🌐 WebSocket Magic (Real-time data streaming)
 WS_PORT=8080
@@ -373,13 +616,16 @@ const userData = await db.table('users')
 - 📡 Real-time status updates to your interface
 
 ```javascript
-// Your serial manager is like a reliable friend
-const serialManager = new SerialManager(database, mainWindow);
-await serialManager.initialize(); // Handles everything for you!
+// Your serial communicator is like a reliable friend
+const serialComm = new SerialCommunicator({
+    baudRate: 9600,
+    autoReconnect: true,
+    dataType: 'json-object',  // or 'csv', 'json-array', 'raw'
+    dbTableName: 'sensor_readings'
+}, db, mainWindow);
 
-// Check status anytime
-const status = serialManager.getStatus();
-await serialManager.forceReconnect();
+// It handles everything for you!
+await serialComm.connect(); // Finds and connects automatically
 ```
 
 **Data Handling Made Simple:**
@@ -406,6 +652,43 @@ wsHandler.broadcastToAll({
     type: 'sensor_update',
     data: { temperature: 25.5, timestamp: new Date() }
 });
+```
+
+**Client Management:**
+- 🔐 Optional authentication with auto-generated tokens
+- 💓 Heartbeat monitoring to detect dead connections
+- 📊 Real-time client statistics and monitoring
+- 🚦 Connection limiting and overflow protection
+
+### 🚀 **REST API - External Integration Ready**
+
+```javascript
+// Clean, simple API endpoints
+app.post('/api/sensor-data', async (req, res) => {
+    const result = await db.table('sensors')
+        .insert(req.body);
+    res.json({ success: true, id: result.insertId });
+});
+
+// Built-in authentication
+app.post('/api/auth/login', authController.login);
+app.post('/api/auth/register', authController.register);
+```
+
+### 🛡️ **Security - Your Data's Bodyguard**
+
+**Encryption That Actually Works:**
+```javascript
+// Automatic field encryption
+const sensitiveData = {
+    username: 'john_doe',
+    email: 'john@example.com',    // Will be encrypted
+    password: 'secret123',        // Will be encrypted
+    public_info: 'not sensitive'  // Stays plain
+};
+
+await db.table('users').insert(sensitiveData);
+// Email and password are automatically encrypted!
 ```
 
 ## 🎛️ **Configuration - Tailor It to Your Needs**
@@ -477,257 +760,183 @@ api.receive('database-insert-success', (result) => {
 
 ## 🏁 **Real-World Example - Putting It All Together**
 
-Let's build a temperature monitoring system with the new modular approach:
+Let's build a temperature monitoring system:
 
 ```javascript
-// 1. In main.js - Clean initialization
-class Application {
-    async initialize() {
-        // Clean, organized setup
-        this.databaseManager = new DatabaseManager();
-        await this.databaseManager.initialize();
-        
-        this.serialManager = new SerialManager(
-            this.databaseManager.getDatabase(), 
-            this.windowManager.getMainWindow()
-        );
-        await this.serialManager.initialize();
-        
-        // Everything is organized and easy to follow!
-    }
-}
+// 1. Setup your serial communicator for temperature sensors
+const tempSensor = new SerialCommunicator({
+    baudRate: 9600,
+    dataType: 'json-object',
+    dbTableName: 'temperature_readings',
+    requiredFields: ['temperature', 'humidity'],
+    fieldsToEncrypt: ['location']  // Keep sensor locations private
+}, db, mainWindow);
 
-// 2. Your modules handle the complexity
-// serialManager automatically:
-// - Connects to your Arduino temperature sensor
-// - Validates incoming data
-// - Encrypts sensitive location data
+// 2. Start your WebSocket server for real-time updates
+const wsServer = new WebSocketHandler({
+    port: 8080,
+    enableAuthentication: true,
+    dbTableName: 'temperature_readings'
+}, db, mainWindow);
+
+// 3. Connect everything
+await tempSensor.connect();        // Auto-finds your Arduino
+await wsServer.start();           // Starts real-time server
+
+// 4. Your Arduino sends: {"temperature": 25.5, "humidity": 60, "location": "Lab1"}
+// Framework automatically:
+// - Receives and validates the data
+// - Encrypts the location field  
 // - Saves to your chosen database
-// - Broadcasts to WebSocket clients
+// - Broadcasts to all WebSocket clients
 // - Updates your Electron interface
-
-// 3. Your Arduino sends: {"temperature": 25.5, "humidity": 60, "location": "Lab1"}
-// Framework handles everything automatically!
-```
-
-## 🎯 **Common Development Scenarios**
-
-### 🔌 **Adding a New Serial Device Type**
-```javascript
-// 1. Edit modules/serial/serialManager.js
-class SerialManager {
-    getSerialConfig() {
-        return {
-            // Add your device configuration
-            deviceTypes: ['arduino', 'esp32', 'your-new-device'],
-            // ...
-        };
-    }
-}
-
-// 2. The existing lib/com/serialCommunicator.js handles the rest!
-```
-
-### 📊 **Adding a New API Endpoint**
-```javascript
-// 1. Edit modules/api/apiServer.js
-class APIServer {
-    setupRoutes() {
-        // Add your new endpoint
-        this.app.get('/api/sensors/status', async (req, res) => {
-            const status = await this.database.table('sensors')
-                .where('active', true)
-                .get();
-            res.json({ success: true, data: status });
-        });
-    }
-}
-```
-
-### 🗄️ **Adding a New Database Operation**
-```javascript
-// 1. Edit modules/ipc/ipcManager.js
-class IPCManager {
-    setupDatabaseHandlers() {
-        ipcMain.handle('get-sensor-summary', async () => {
-            try {
-                const summary = await this.database.table('sensors')
-                    .select(['COUNT(*) as total', 'AVG(temperature) as avg_temp'])
-                    .first();
-                return { success: true, data: summary };
-            } catch (err) {
-                return { success: false, error: err.message };
-            }
-        });
-    }
-}
-
-// 2. Frontend can now call: api.getSensorSummary()
 ```
 
 ## 🔧 **Advanced Features - For the Power Users**
 
-### Custom Module Creation
+### Custom Query Builder Extensions
 ```javascript
-// Create your own module: modules/analytics/analyticsManager.js
-class AnalyticsManager {
-    constructor(database) {
-        this.database = database;
-    }
-    
-    async initialize() {
-        // Setup analytics processing
-        console.log('Analytics manager initialized');
-    }
-    
-    async generateReport(dateRange) {
-        // Custom analytics logic
-        return await this.database.table('sensors')
-            .whereBetween('timestamp', dateRange)
-            .get();
-    }
-}
+// Add your own query methods
+QueryBuilder.prototype.whereTemperature = function(min, max) {
+    return this.whereBetween('temperature', min, max);
+};
 
-// Add to main.js:
-this.analyticsManager = new AnalyticsManager(this.databaseManager.getDatabase());
+// Use your custom methods
+const hotReadings = await db.table('sensors')
+    .whereTemperature(30, 50)
+    .whereNotNull('humidity')
+    .get();
 ```
 
-### Module Communication
+### Serial Communication Events
 ```javascript
-// Modules can communicate through the main application
-class Application {
-    async initialize() {
-        this.databaseManager = new DatabaseManager();
-        this.serialManager = new SerialManager(/* ... */);
-        
-        // Connect modules
-        this.serialManager.on('data-received', (data) => {
-            this.analyticsManager.processRealTimeData(data);
-        });
-    }
-}
+serialComm.on('data', (data) => {
+    console.log('Raw data received:', data);
+});
+
+serialComm.on('connection-lost', (info) => {
+    console.log('Connection lost, attempting reconnection...');
+    showAlert('Sensor disconnected, reconnecting...');
+});
+
+serialComm.on('better-port-detected', (portInfo) => {
+    console.log('Found better port:', portInfo.newPort);
+    showNotification(`Switching to better connection: ${portInfo.newPort}`);
+});
 ```
 
 ## 🐛 **Troubleshooting - We've Got Your Back**
 
-### Module-Specific Debugging
+### Common Issues & Solutions
 
-**Database Module Issues?**
-```javascript
-// Check databaseManager status
-const dbManager = new DatabaseManager();
-await dbManager.initialize();
-console.log('Database ready:', dbManager.isFirebase() ? 'Firebase' : 'MySQL');
+**Serial Port Not Found?**
+```bash
+# Windows: Check Device Manager
+# Linux: List available ports
+ls /dev/tty*
+
+# Enable dynamic port switching
+SERIAL_ENABLE_DYNAMIC_SWITCHING=true
 ```
 
-**Serial Module Not Working?**
+**Database Connection Issues?**
 ```javascript
-// Debug serial manager
-const status = serialManager.getStatus();
-console.log('Serial status:', status);
-await serialManager.forceReconnect();
+// Check your connection
+const status = await db.raw('SELECT 1 as test');
+console.log('Database OK:', status);
+
+// Switch databases easily
+npm run switch-db firebase  # Try Firebase instead
 ```
 
-**API Module Problems?**
+**WebSocket Not Connecting?**
 ```javascript
-// Check API server
-const apiServer = new APIServer(database);
-apiServer.start();
-console.log(`API running on port: ${apiServer.getPort()}`);
+// Check server status
+const wsStatus = wsHandler.getStatus();
+console.log('WebSocket Server:', wsStatus);
+
+// Verify port availability
+netstat -an | grep :8080
 ```
 
-## 🚀 **Migration from Old Structure**
+## 🎯 **Best Practices - Do It Right**
 
-### Easy Migration Steps
-1. **Create the modules folder structure**
-2. **Copy the module files** from the artifacts
-3. **Replace your main.js** with the new clean version
-4. **Update any custom code** to use the new module imports
-5. **Test each module** individually
-
-### Before & After Comparison
+### 1. **Error Handling Like a Pro**
 ```javascript
-// OLD: Everything in main.js (300+ lines)
-const db = useFirebase ? new FirebaseDB(config) : new Database(config);
-const serialCommunicator = new SerialCommunicator(config, db, mainWindow);
-// ... 250+ more lines of mixed concerns
-
-// NEW: Clean and organized (60 lines)
-class Application {
-    async initialize() {
-        this.databaseManager = new DatabaseManager();
-        this.serialManager = new SerialManager();
-        // Clean, focused, maintainable!
-    }
+try {
+    const result = await db.table('sensors')
+        .where('active', true)
+        .get();
+} catch (error) {
+    console.error('Database error:', error.message);
+    // Always handle your errors gracefully
+    showUserFriendlyMessage('Unable to load sensor data');
 }
+```
+
+### 2. **Security First**
+```javascript
+// Always validate incoming data
+const validateSensorData = (data) => {
+    const required = ['temperature', 'timestamp'];
+    return required.every(field => data[field] !== undefined);
+};
+
+// Encrypt sensitive fields
+const sensitiveSensors = ['location', 'device_id', 'user_id'];
+```
+
+### 3. **Performance Optimization**
+```javascript
+// Use indexes for frequently queried fields
+// Limit data retrieval for real-time updates
+const recentData = await db.table('sensors')
+    .where('timestamp', '>', lastUpdate)
+    .limit(100)
+    .get();
+```
+
+## 🚀 **Deployment - Take It Live**
+
+### Development Mode
+```bash
+npm run dev          # Hot reloading for development
+```
+
+### Production Build
+```bash
+npm run build        # Optimized production build
+npm run start:prod   # Run in production mode
+```
+
+### Docker Deployment
+```dockerfile
+FROM node:18-alpine
+WORKDIR /app
+COPY package*.json ./
+RUN npm install --production
+COPY . .
+EXPOSE 3001 8080
+CMD ["npm", "start"]
 ```
 
 ## 📌 TODO / Future Improvements
-- [ ] ✅ **COMPLETED**: Modular Architecture Implementation
-- [ ] Making Compact Frontend Components with Module Support
-- [ ] Frontend With WebSocket Support and Module Integration
-- [ ] Asset for Monitoring System
-- [ ] Revising Auth for better and compact module-based use
-- [ ] Module-based Plugin System
-- [ ] Hot Module Reloading for Development
-
-## 🎯 **Best Practices for Modular Development**
-
-### 1. **Module Responsibility**
-```javascript
-// ✅ GOOD: Single responsibility
-class DatabaseManager {
-    // Only handles database concerns
-}
-
-// ❌ BAD: Mixed responsibilities  
-class DatabaseAndSerialManager {
-    // Handles both database AND serial - too much!
-}
-```
-
-### 2. **Clean Module Interfaces**
-```javascript
-// ✅ GOOD: Clear, simple interface
-class SerialManager {
-    async initialize() { /* ... */ }
-    getStatus() { /* ... */ }
-    async close() { /* ... */ }
-}
-
-// ❌ BAD: Exposing internal complexity
-class SerialManager {
-    serialCommunicator = null;
-    internalBuffer = [];
-    _handleRawData() { /* internal method exposed */ }
-}
-```
-
-### 3. **Error Handling**
-```javascript
-// ✅ GOOD: Module-level error handling
-class DatabaseManager {
-    async initialize() {
-        try {
-            await this.db.connect();
-            console.log('Database initialized');
-        } catch (error) {
-            console.error('Database initialization failed:', error);
-            throw error; // Let application handle
-        }
-    }
-}
-```
+- [ ] Making Compact Frontend Component
+- [ ] Frontend With WebSocket Support
+- [ ] Asset for Front End Monitoring
+- [ ] Revising Auth for better and compact use
+- [ ] Module hot-reloading for development
+- [ ] Module dependency injection system
+- [ ] Module configuration validation
 
 ## 🤝 **Contributing - Join the Journey**
 
-We love contributions! The new modular structure makes contributing even easier:
-
-- 🧩 **Add New Modules**: Create focused, single-purpose modules
-- 🐛 **Fix Module Issues**: Debug specific modules in isolation  
-- ✨ **Enhance Existing Modules**: Improve without affecting others
-- 📖 **Document Modules**: Help others understand the structure
-- 🧪 **Test Modules**: Create unit tests for individual modules
+We love contributions! Whether it's:
+- 🐛 Bug fixes
+- ✨ New features  
+- 📖 Documentation improvements
+- 🧪 Testing enhancements
+- 🧩 New modules
 
 Check out our [Contributing Guide](CONTRIBUTING.md) to get started!
 
@@ -739,15 +948,7 @@ This project isn't being Licensed and still be use as open source project, but b
 
 ## 💡 **Ready to Build Something Amazing?**
 
-This framework isn't just code - it's your foundation for creating monitoring systems that actually work in the real world. With the new **modular architecture**, you get:
-
-- **🚀 Faster Development**: Know exactly where to make changes
-- **🔧 Easier Maintenance**: Update one module without breaking others  
-- **📈 Better Scalability**: Add features without refactoring everything
-- **🎯 Cleaner Code**: Each module has a single, clear purpose
-- **🧪 Better Testing**: Test modules independently
-
-Whether you're monitoring industrial equipment, environmental sensors, or IoT devices, we've built the tools you need to succeed - now with a structure that grows with your project!
+This framework isn't just code - it's your foundation for creating monitoring systems that actually work in the real world. Whether you're monitoring industrial equipment, environmental sensors, or IoT devices, we've built the tools you need to succeed.
 
 **Start your monitoring adventure today!**
 
@@ -758,8 +959,8 @@ npm install
 npm start
 ```
 
-### 🌟 **Star us on GitHub if this modular framework helps you build something awesome!**
+### 🌟 **Star us on GitHub if this framework helps you build something awesome!**
 
 ---
 
-*Built with ❤️ for developers who believe monitoring should be powerful, flexible, maintainable, and actually enjoyable to work with.*
+*Built with ❤️ for developers who believe monitoring should be powerful, flexible, and actually enjoyable to work with.*
