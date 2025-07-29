@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html lang="id">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Dashboard - Flow Meter System</title>
+    <link rel="stylesheet" href="../../css/dashboard.css" />
+  </head>
+  <body>
+    <div class="container">
+      <!-- Sidebar -->
+      <div class="sidebar">
+        <div class="user-info">
+          <div class="user-avatar">U</div>
+          <div class="user-details">
+            <h4>TESTING</h4>
+            <p id="lastLogin">15 hours ago - last login</p>
+          </div>
+        </div>
+
+        <ul class="nav-menu">
+          <li class="nav-item active">
+            <a href="#dashboard">DASHBOARD</a>
+          </li>
+          <li class="nav-item">
+            <a href="#controller">CONTROLLER</a>
+          </li>
+          <li class="nav-item">
+            <a href="#log">LOG DEVICE</a>
+          </li>
+        </ul>
+      </div>
+
+      <!-- Main Content -->
+      <div class="main-content">
+        <div class="header">
+          <div class="logo">💧 KEL 7 - Flow Meter System</div>
+          <div class="status-indicator">
+            <div class="status-dot"></div>
+            <span id="connectionStatus">Connected</span>
+          </div>
+        </div>
+
+        <!-- Status Cards -->
+        <div class="status-cards">
+          <div class="status-card fm1-flow">
+            <div class="status-icon">🌊</div>
+            <div class="status-info">
+              <h3 id="fm1FlowRate">0.00 L/min</h3>
+              <p>FM1 Flow Rate</p>
+            </div>
+          </div>
+          <div class="status-card fm1-volume">
+            <div class="status-icon">💧</div>
+            <div class="status-info">
+              <h3 id="fm1Volume">0.000 L</h3>
+              <p>FM1 Total Volume</p>
+            </div>
+          </div>
+          <div class="status-card fm2-flow">
+            <div class="status-icon">🌊</div>
+            <div class="status-info">
+              <h3 id="fm2FlowRate">0.00 L/min</h3>
+              <p>FM2 Flow Rate</p>
+            </div>
+          </div>
+          <div class="status-card fm2-volume">
+            <div class="status-icon">💧</div>
+            <div class="status-info">
+              <h3 id="fm2Volume">0.000 L</h3>
+              <p>FM2 Total Volume</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="dashboard-grid">
+          <!-- Data Table and Chart Section -->
+          <div class="data-section">
+            <div class="section-header">
+              <div class="section-title">Sensor Data</div>
+              <button class="realtime-toggle" id="realtimeBtn">
+                <span id="realtimeText">Real-time ON</span>
+              </button>
+            </div>
+
+            <!-- Table Navigation Controls -->
+            <div class="chart-controls">
+              <button class="table-btn active" data-table="fm1">
+                Flow Meter 1
+              </button>
+              <button class="table-btn" data-table="fm2">Flow Meter 2</button>
+              <button class="table-btn" data-table="headloss">
+                Head Loss Analysis
+              </button>
+            </div>
+
+            <!-- FM1 Table -->
+            <div class="table-container active" id="fm1Table">
+              <table class="data-table">
+                <thead>
+                  <tr>
+                    <th>Laju Aliran</th>
+                    <th>Kecepatan</th>
+                    <th>Total Volume</th>
+                    <th>Timestamp</th>
+                  </tr>
+                </thead>
+                <tbody id="fm1TableBody">
+                  <tr>
+                    <td>0.00 L/min</td>
+                    <td>0.000 m/s</td>
+                    <td>0.000 L</td>
+                    <td id="currentTime1">2025-06-21 14:30:25</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+
+            <!-- FM2 Table -->
+            <div class="table-container" id="fm2Table">
+              <table class="data-table">
+                <thead>
+                  <tr>
+                    <th>Laju Aliran</th>
+                    <th>Kecepatan</th>
+                    <th>Total Volume</th>
+                    <th>Timestamp</th>
+                  </tr>
+                </thead>
+                <tbody id="fm2TableBody">
+                  <tr>
+                    <td>0.00 L/min</td>
+                    <td>0.000 m/s</td>
+                    <td>0.000 L</td>
+                    <td id="currentTime2">2025-06-21 14:30:25</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+
+            <!-- Head Loss Table -->
+            <div class="table-container" id="headlossTable">
+              <table class="data-table">
+                <thead>
+                  <tr>
+                    <th>Friction Head Loss</th>
+                    <th>Minor Head Loss</th>
+                    <th>Total Head Loss</th>
+                    <th>Timestamp</th>
+                  </tr>
+                </thead>
+                <tbody id="headlossTableBody">
+                  <tr>
+                    <td>0.0 mm</td>
+                    <td>0.0 mm</td>
+                    <td>0.0 mm</td>
+                    <td id="currentTime3">2025-06-21 14:30:25</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+
+            <!-- Chart Section -->
+            <div class="chart-container">
+              <div class="chart-controls">
+                <button class="chart-btn active" data-chart="flowrate">
+                  Flow Rate Comparison
+                </button>
+                <button class="chart-btn" data-chart="volume">
+                  Volume Comparison
+                </button>
+                <button class="chart-btn" data-chart="headloss">
+                  Head Loss Analysis
+                </button>
+              </div>
+
+              <div class="chart-wrapper">
+                <div class="chart-placeholder">
+                  <h3>Flow Rate Comparison Chart</h3>
+                  <p>
+                    Chart akan menampilkan perbandingan laju aliran dari FM1 dan
+                    FM2
+                  </p>
+                  <small>Data real-time akan ditampilkan di sini</small>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Quick Access Panel -->
+          <div class="quick-access">
+            <h3>SYSTEM CONTROL</h3>
+
+            <div class="analog-control">
+              <label>Choose Device</label>
+              <select class="control-input" id="deviceSelect">
+                <option value="1">Flow Meter System</option>
+              </select>
+            </div>
+
+            <div class="analog-control">
+              <label>SAMPLING INTERVAL</label>
+              <input
+                type="range"
+                min="1"
+                max="60"
+                value="5"
+                class="slider"
+                id="samplingSlider"
+              />
+              <div
+                style="
+                  text-align: right;
+                  margin-top: 5px;
+                  color: #666;
+                  font-size: 12px;
+                "
+              >
+                <span id="sliderValue">5</span> seconds
+              </div>
+            </div>
+
+            <button class="start-btn" id="startBtn">START MONITORING</button>
+
+            <div class="category-section">
+              <h4 style="margin-bottom: 15px; color: #666">System Status</h4>
+
+              <div class="category-item leak-status">
+                <div class="category-info">
+                  <div class="category-icon">🚨</div>
+                  <div>
+                    <div style="font-weight: bold">Leak Detection</div>
+                    <div
+                      style="font-size: 12px"
+                      id="leakStatusValue"
+                      class="status-normal"
+                    >
+                      Normal
+                    </div>
+                  </div>
+                </div>
+                <div
+                  style="
+                    background: #38a169;
+                    color: white;
+                    width: 20px;
+                    height: 20px;
+                    border-radius: 3px;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    font-size: 12px;
+                  "
+                  id="leakCount"
+                >
+                  ✓
+                </div>
+              </div>
+
+              <div class="category-item system-status">
+                <div class="category-info">
+                  <div class="category-icon">⚙️</div>
+                  <div>
+                    <div style="font-weight: bold">System Status</div>
+                    <div
+                      style="font-size: 12px; color: #666"
+                      id="systemStatusValue"
+                    >
+                      Active
+                    </div>
+                  </div>
+                </div>
+                <div
+                  style="
+                    background: #3182ce;
+                    color: white;
+                    width: 20px;
+                    height: 20px;
+                    border-radius: 3px;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    font-size: 12px;
+                  "
+                  id="systemCount"
+                >
+                  1
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script src="../../js/monitor.js"></script>
+  </body>
+</html>
