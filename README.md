@@ -754,6 +754,12 @@ EXPOSE 3001 8080
 CMD ["npm", "start"]
 ```
 
+##📌 TODO / Future Improvements
+- [] Making Compact Frontend Compounent
+- [] Frontend With Websocket Support
+- [] Asset for Front End Monitoring
+- [] Revising Auth for better and compact use
+
 ## 🤝 **Contributing - Join the Journey**
 
 We love contributions! Whether it's:
