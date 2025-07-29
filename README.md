@@ -754,7 +754,7 @@ EXPOSE 3001 8080
 CMD ["npm", "start"]
 ```
 
-##📌 TODO / Future Improvements
+## 📌 TODO / Future Improvements
 - [ ] Making Compact Frontend Compounent
 - [ ] Frontend With Websocket Support
 - [ ] Asset for Front End Monitoring
