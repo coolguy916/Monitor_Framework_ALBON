@@ -766,7 +766,7 @@ Check out our [Contributing Guide](CONTRIBUTING.md) to get started!
 
 ## 📄 **License**
 
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+This project isn't being Licensed and still be use as open source project, but be sure to tag the user account of any pulling or developing this code
 
 ---
 
