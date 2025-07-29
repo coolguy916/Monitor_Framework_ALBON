@@ -6,27 +6,41 @@
 USE_FIREBASE=false
 
 # -----------------------------------------------------------------
+# FIREBASE DATABASE CONFIGURATION
+# -----------------------------------------------------------------
+# These values are used only when USE_FIREBASE is set to 'true'.
+# The default values are shown after the || in main.js
+FIREBASE_API_KEY=your_firebase_api_key
+FIREBASE_AUTH_DOMAIN=your_firebase_auth_domain
+FIREBASE_DATABASE_URL=https://your-database-url.firebaseio.com
+FIREBASE_PROJECT_ID=your-project-id
+FIREBASE_STORAGE_BUCKET=your-storage-bucket
+FIREBASE_MESSAGING_SENDER_ID=your-messaging-sender-id
+FIREBASE_APP_ID=your-app-id
+FIREBASE_MEASUREMENT_ID=your-measurement-id
+
+# -----------------------------------------------------------------
 # MYSQL DATABASE CONFIGURATION
 # -----------------------------------------------------------------
 # These values are used only when USE_FIREBASE is set to 'false'.
 # The default values are shown after the || in main.js
-DB_HOST=153.92.15.81
-DB_USER=u472257798_findmyID
-DB_PASSWORD=&nxE~jrXc6
-DB_DATABASE=u472257798_db_alprogB
-DB_PORT=3306 
+MYSQL_HOST=
+MYSQL_USER=
+MYSQL_PASSWORD=
+MYSQL_DATABASE=
+MYSQL_PORT=
 
 # -----------------------------------------------------------------
 # API CONFIGURATION
 # -----------------------------------------------------------------
 # Port for the external Express API server.
-API_PORT=3001
+API_PORT=
 
 # -----------------------------------------------------------------
 # WS CONFIGURATION
 # -----------------------------------------------------------------
-#   WebSocket server configuration.
-#   This is used for real-time data updates.  
+# WebSocket server configuration.
+# This is used for real-time data updates.  
 WS_PORT=8080
 WS_HOST=0.0.0.0
 WS_AUTH_ENABLED=false
@@ -47,26 +61,10 @@ WS_LOG_LEVEL=info
 SERIAL_PORT= null
 SERIAL_BAUDRATE= 9600
 SERIAL_LINE_DELIMITER='\r\n'
-SERIAL_DATA_TYPES = 
-SERIAL_DB_TABLE_NAME = 
-SERIAL_REQUIRED_FIELDS = []
-SERIAL_FIELD_TO_ENCRYPT = []
-
-# -----------------------------------------------------------------
-# FIREBASE CONFIGURATION (For Best Practices)
-# -----------------------------------------------------------------
-# While your project currently gets these from firebaseConfig.js,
-# a better practice is to store them here and modify firebaseConfig.js
-# to read from process.env.
-# This keeps all your secret keys in one file.
-#
-# FIREBASE_API_KEY=YOUR_API_KEY
-# FIREBASE_AUTH_DOMAIN=YOUR_AUTH_DOMAIN
-# FIREBASE_PROJECT_ID=YOUR_PROJECT_ID
-# FIREBASE_STORAGE_BUCKET=YOUR_STORAGE_BUCKET
-# FIREBASE_MESSAGING_SENDER_ID=YOUR_MESSAGING_SENDER_ID
-# FIREBASE_APP_ID=YOUR_APP_ID
-# Encryption Key for Database
+SERIAL_DATA_TYPES= 
+SERIAL_DB_TABLE_NAME= 
+SERIAL_REQUIRED_FIELDS= []
+SERIAL_FIELD_TO_ENCRYPT= []
 
 # -----------------------------------------------------------------
 # FIREBASE CONFIGURATION (For Best Practices)
