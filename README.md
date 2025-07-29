@@ -755,10 +755,10 @@ CMD ["npm", "start"]
 ```
 
 ##📌 TODO / Future Improvements
-- [] Making Compact Frontend Compounent
-- [] Frontend With Websocket Support
-- [] Asset for Front End Monitoring
-- [] Revising Auth for better and compact use
+- [ ] Making Compact Frontend Compounent
+- [ ] Frontend With Websocket Support
+- [ ] Asset for Front End Monitoring
+- [ ] Revising Auth for better and compact use
 
 ## 🤝 **Contributing - Join the Journey**
 
