@@ -24,10 +24,10 @@ class DatabaseManager {
                 });
             } else {
                 this.db = new Database({
-                    host: process.env.MYSQL_HOST || 'localhost',
-                    user: process.env.MYSQL_USER || 'root',
-                    password: process.env.MYSQL_PASSWORD || '',
-                    database: process.env.MYSQL_DATABASE || 'labx'
+                    host: process.env.MYSQL_HOST || 'your-db-host',
+                    user: process.env.MYSQL_USER || 'your-db-user',
+                    password: process.env.MYSQL_PASSWORD || 'your-db-password',
+                    database: process.env.MYSQL_DATABASE || 'your-db-name'
                 });
                 await this.db.connect();
             }
