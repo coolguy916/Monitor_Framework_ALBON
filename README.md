@@ -39,13 +39,29 @@ Understanding where everything lives is crucial for efficient development. Here'
 
 ```
 flow-meter-monitoring/
-├── 📋 main.js                          # 🚀 Application entry point - starts everything
+├── 📋 main.js                          # 🚀 Application entry point - Orchestrates all modules
 ├── 🔗 preload.js                       # 🌉 Bridge between frontend and backend
 ├── 📦 package.json                     # 📋 Dependencies and scripts
 ├── 🔐 .env                            # ⚙️ Configuration secrets (create from .env.example)
 ├── 🔐 .env.example                    # 📝 Template for environment variables
 ├── 🔧 firebaseConfig.js               # 🔥 Firebase configuration defaults
 ├── 📚 README.md                       # 📖 You are here!
+│
+├── 📂 modules/                        # 🧩 Modular Framework Components (NEW!)
+│   ├── 📂 database/                   # 💾 Database Management Module
+│   │   └── 🗄️ databaseManager.js     # 🏗️ Database initialization & lifecycle
+│   │
+│   ├── 📂 window/                     # 🖥️ Window Management Module
+│   │   └── 🪟 windowManager.js       # 📊 Electron window creation & control
+│   │
+│   ├── 📂 api/                        # 🌐 API Server Module
+│   │   └── 🚀 apiServer.js           # 🔗 Express server setup & routing
+│   │
+│   ├── 📂 serial/                     # 📡 Serial Communication Module
+│   │   └── 🔌 serialManager.js       # 📟 Hardware communication orchestration
+│   │
+│   └── 📂 ipc/                        # 🌉 IPC Communication Module
+│       └── 💬 ipcManager.js          # 🔄 Frontend-backend bridge handlers
 │
 ├── 📂 lib/                            # 🏗️ Core Framework Libraries
 │   ├── 📂 db/                         # 💾 Database Abstraction Layer
@@ -79,33 +95,152 @@ flow-meter-monitoring/
 
 ### 🚀 **Core Application Files**
 
-#### `main.js` - The Command Center
+#### `main.js` - The Orchestrator (NEW MODULAR APPROACH!)
 ```javascript
-// 🎯 Purpose: Application bootstrap and coordination
-// ✏️ Edit when: Adding new IPC handlers, changing app config, integrating new modules
-// 🔧 Contains: Database initialization, window management, API server setup
+// 🎯 Purpose: Simplified application bootstrap using modular components
+// ✏️ Edit when: Adding new modules, changing initialization order, app-wide config
+// 🔧 Contains: Module orchestration, lifecycle management, error handling
 
 // Key sections to modify:
-- initializeApp()           // Add new module initializations
-- IPC handlers             // Add new frontend-backend communications  
-- setupExpressAPI()        // Add new REST endpoints
+class Application {
+    async initialize() {
+        // Add new module initializations here
+        this.databaseManager = new DatabaseManager();
+        this.windowManager = new WindowManager();
+        this.apiServer = new APIServer();
+        // Add your custom modules here
+    }
+}
 ```
 
-#### `preload.js` - The Security Bridge
+### 🧩 **Modular Components (`modules/`)**
+
+#### `modules/database/databaseManager.js` - Database Orchestrator
 ```javascript
-// 🎯 Purpose: Secure communication bridge between frontend and backend
-// ✏️ Edit when: Adding new frontend API methods, exposing new channels
-// 🔧 Contains: Channel validation, API method exposure
+// 🎯 Purpose: Centralized database initialization and management
+// ✏️ Edit when: Adding database configurations, switching logic, connection pooling
+// 🔧 Contains: Database initialization, connection management, cleanup
 
-// Key sections to modify:
-- validInvokeChannels      // Add new backend method channels
-- validReceiveChannels     // Add new event listening channels
-- contextBridge.exposeInMainWorld  // Add new frontend methods
+class DatabaseManager {
+    async initialize() {
+        // Add custom database initialization logic
+        if (this.useFirebase) {
+            this.db = new FirebaseDB(/* config */);
+        } else {
+            this.db = new Database(/* config */);
+            await this.db.connect();
+        }
+    }
+    
+    // Add custom database management methods
+    async switchDatabase(type) { /* switching logic */ }
+    async healthCheck() { /* health monitoring */ }
+}
 ```
 
-### 💾 **Database Layer (`lib/db/`)**
+#### `modules/window/windowManager.js` - Window Controller
+```javascript
+// 🎯 Purpose: Electron window lifecycle and configuration management
+// ✏️ Edit when: Changing window properties, adding new windows, menu customization
+// 🔧 Contains: Window creation, configuration, event handling
 
-#### `mysqlDB.js` - MySQL Powerhouse
+class WindowManager {
+    createWindow() {
+        // Modify window configuration
+        this.mainWindow = new BrowserWindow({
+            width: 1000,
+            height: 700,
+            // Add custom window options
+        });
+        
+        // Add custom window event handlers
+        this.mainWindow.on('custom-event', this.handleCustomEvent);
+    }
+    
+    // Add new window management methods
+    createSecondaryWindow() { /* additional windows */ }
+    toggleFullscreen() { /* window controls */ }
+}
+```
+
+#### `modules/api/apiServer.js` - API Orchestrator
+```javascript
+// 🎯 Purpose: Express server setup, middleware, and route organization
+// ✏️ Edit when: Adding new routes, middleware, authentication, API versioning
+// 🔧 Contains: Server configuration, route setup, controller initialization
+
+class APIServer {
+    setupRoutes() {
+        // Add new API routes
+        this.app.post('/api/v2/sensors', sensorController.createSensor);
+        this.app.get('/api/admin/stats', authMiddleware, adminController.getStats);
+        
+        // Add custom middleware
+        this.app.use('/api/secure', this.authenticateMiddleware);
+    }
+    
+    // Add server management methods
+    addRoute(method, path, handler) { /* dynamic routing */ }
+    enableCORS(origins) { /* CORS configuration */ }
+}
+```
+
+#### `modules/serial/serialManager.js` - Hardware Communication Hub
+```javascript
+// 🎯 Purpose: Serial communication orchestration and device management
+// ✏️ Edit when: Adding device types, communication protocols, data parsing
+// ✏️ Contains: Serial configuration, connection management, data handling
+
+class SerialManager {
+    async initialize() {
+        // Configure serial communication
+        this.serialCommunicator = new SerialCommunicator(
+            this.config, 
+            this.database, 
+            this.mainWindow
+        );
+        
+        // Add custom device handlers
+        this.setupDeviceHandlers();
+    }
+    
+    // Add device-specific methods
+    handleArduinoData(data) { /* Arduino-specific parsing */ }
+    handleESP32Data(data) { /* ESP32-specific parsing */ }
+    addCustomDevice(config) { /* dynamic device addition */ }
+}
+```
+
+#### `modules/ipc/ipcManager.js` - Frontend-Backend Bridge
+```javascript
+// 🎯 Purpose: Organized IPC handler management and frontend communication
+// ✏️ Edit when: Adding new frontend-backend communications, data channels
+// 🔧 Contains: IPC handler organization, channel management, data validation
+
+class IPCManager {
+    setupHandlers() {
+        this.setupDatabaseHandlers();
+        this.setupSerialHandlers();
+        this.setupCustomHandlers(); // Add your custom handlers
+    }
+    
+    setupCustomHandlers() {
+        // Add new IPC handlers
+        ipcMain.handle('custom-operation', async (event, data) => {
+            // Your custom backend operation
+            return { success: true, result: processedData };
+        });
+    }
+    
+    // Add handler categories
+    setupFileHandlers() { /* file operations */ }
+    setupSystemHandlers() { /* system operations */ }
+}
+```
+
+### 🏗️ **Core Framework Libraries (`lib/`)**
+
+#### `lib/db/mysqlDB.js` - MySQL Powerhouse
 ```javascript
 // 🎯 Purpose: MySQL database operations with advanced Query Builder
 // ✏️ Edit when: Adding custom query methods, modifying encryption, adding validations
@@ -115,6 +250,7 @@ flow-meter-monitoring/
 class QueryBuilder {
     // Add custom query methods here
     whereTemperature(min, max) { /* custom filtering */ }
+    withSensorData() { /* join sensor tables */ }
 }
 
 class Database {
@@ -123,7 +259,7 @@ class Database {
 }
 ```
 
-#### `firebaseDB.js` - Firebase Magic
+#### `lib/db/firebaseDB.js` - Firebase Magic
 ```javascript  
 // 🎯 Purpose: Firebase Realtime Database with MySQL-compatible Query Builder
 // ✏️ Edit when: Adding Firebase-specific optimizations, custom query methods
@@ -133,12 +269,11 @@ class Database {
 class FirebaseQueryBuilder {
     // Add Firebase-specific query methods
     _applyClientFilters(data) { /* custom filtering logic */ }
+    whereFirebaseSpecific(field, value) { /* Firebase optimizations */ }
 }
 ```
 
-### 🌐 **Communication Layer (`lib/com/`)**
-
-#### `serialCommunicator.js` - Hardware Whisperer
+#### `lib/com/serialCommunicator.js` - Hardware Whisperer
 ```javascript
 // 🎯 Purpose: Smart serial device communication with auto-reconnection
 // ✏️ Edit when: Supporting new device types, changing data parsing, adding protocols
@@ -161,7 +296,7 @@ _autoDetectAndConnect() {
 }
 ```
 
-#### `webSocketHandler.js` - Real-time Maestro
+#### `lib/com/webSocketHandler.js` - Real-time Maestro
 ```javascript
 // 🎯 Purpose: WebSocket server for real-time data broadcasting  
 // ✏️ Edit when: Adding authentication methods, custom message types, client management
@@ -323,36 +458,67 @@ module.exports = {
 };
 ```
 
-## 🎯 **Common Editing Scenarios**
+## 🎯 **Common Editing Scenarios with Modular Approach**
 
 ### 🔌 **Adding a New Serial Device Type**
-1. **Edit `serialCommunicator.js`**: Add device detection in `_autoDetectAndConnect()`
-2. **Edit `.env`**: Add device-specific configuration options
-3. **Edit `script.js`**: Add frontend handling for new device data
+1. **Edit `modules/serial/serialManager.js`**: Add device-specific configuration and handlers
+2. **Edit `lib/com/serialCommunicator.js`**: Add device detection in `_autoDetectAndConnect()`
+3. **Edit `.env`**: Add device-specific configuration options
+4. **Edit `resource/view/uibaru/script.js`**: Add frontend handling for new device data
 
 ### 📊 **Adding a New Dashboard Widget**
-1. **Edit `monitor.html`**: Add widget HTML structure
-2. **Edit `style.css`**: Add widget styling
-3. **Edit `script.js`**: Add widget update logic
-4. **Edit `main.js`**: Add IPC handler if backend data needed
+1. **Edit `resource/view/uibaru/monitor.html`**: Add widget HTML structure
+2. **Edit `resource/view/uibaru/style.css`**: Add widget styling
+3. **Edit `resource/view/uibaru/script.js`**: Add widget update logic
+4. **Edit `modules/ipc/ipcManager.js`**: Add IPC handler if backend data needed
 
 ### 🗄️ **Adding a New Database Table/Operations**
-1. **Edit `mysqlDB.js` or `firebaseDB.js`**: Add custom query methods
-2. **Edit `databaseController.js`**: Add REST endpoints
-3. **Edit `main.js`**: Add IPC handlers
-4. **Edit `preload.js`**: Expose new methods to frontend
+1. **Edit `lib/db/mysqlDB.js` or `lib/db/firebaseDB.js`**: Add custom query methods
+2. **Edit `controller/app/databaseController.js`**: Add REST endpoints
+3. **Edit `modules/api/apiServer.js`**: Add new routes
+4. **Edit `modules/ipc/ipcManager.js`**: Add IPC handlers
+5. **Edit `preload.js`**: Expose new methods to frontend
 
 ### 🔐 **Modifying Authentication**
-1. **Edit `authController.js`**: Modify login/register logic
-2. **Edit `webSocketHandler.js`**: Update WebSocket authentication
-3. **Edit `.env`**: Add new auth configuration options
+1. **Edit `controller/app/authController.js`**: Modify login/register logic
+2. **Edit `modules/api/apiServer.js`**: Update API authentication middleware
+3. **Edit `lib/com/webSocketHandler.js`**: Update WebSocket authentication
+4. **Edit `.env`**: Add new auth configuration options
 
 ### 🌐 **Adding New WebSocket Message Types**
-1. **Edit `webSocketHandler.js`**: Add message type handler
-2. **Edit `script.js`**: Add frontend message listener
+1. **Edit `lib/com/webSocketHandler.js`**: Add message type handler
+2. **Edit `resource/view/uibaru/script.js`**: Add frontend message listener
 3. **Edit `preload.js`**: Add receive channel if needed
 
-This structure gives you complete control over every aspect of your monitoring system. Each file has a specific purpose, and now you know exactly where to make changes for any feature you want to add or modify!
+### 🧩 **Creating a New Custom Module**
+1. **Create `modules/yourmodule/yourManager.js`**: Implement your module class
+2. **Edit `main.js`**: Add module to application initialization
+3. **Add module-specific configuration** to `.env`
+4. **Connect to other modules** as needed through the main application class
+
+## 💡 **Benefits of the New Modular Structure**
+
+### 🎯 **Better Organization**
+- **Cleaner main.js**: From 300+ lines to ~60 lines of orchestration code
+- **Focused modules**: Each module handles one specific responsibility
+- **Easier navigation**: Find exactly what you need without hunting through large files
+
+### 🔧 **Enhanced Maintainability**
+- **Isolated changes**: Modify database logic without touching serial communication
+- **Independent testing**: Test each module in isolation
+- **Clearer dependencies**: See exactly what each module needs
+
+### 🚀 **Improved Performance**
+- **Same runtime performance**: No additional overhead compared to monolithic structure
+- **Better memory management**: Modules can be garbage collected independently
+- **Faster development**: Smaller files load and process faster in IDEs
+
+### 📈 **Scalability Ready**
+- **Easy module addition**: Add new functionality without touching existing code
+- **Pluggable architecture**: Swap implementations easily (e.g., different databases)
+- **Team development**: Multiple developers can work on different modules simultaneously
+
+This modular approach gives you complete control over every aspect of your monitoring system while maintaining the same powerful functionality you had before - just organized in a way that scales with your project's growth!
 
 ## 🎯 Quick Start - Get Running in Minutes!
 
@@ -755,10 +921,13 @@ CMD ["npm", "start"]
 ```
 
 ## 📌 TODO / Future Improvements
-- [ ] Making Compact Frontend Compounent
-- [ ] Frontend With Websocket Support
+- [ ] Making Compact Frontend Component
+- [ ] Frontend With WebSocket Support
 - [ ] Asset for Front End Monitoring
 - [ ] Revising Auth for better and compact use
+- [ ] Module hot-reloading for development
+- [ ] Module dependency injection system
+- [ ] Module configuration validation
 
 ## 🤝 **Contributing - Join the Journey**
 
@@ -767,6 +936,7 @@ We love contributions! Whether it's:
 - ✨ New features  
 - 📖 Documentation improvements
 - 🧪 Testing enhancements
+- 🧩 New modules
 
 Check out our [Contributing Guide](CONTRIBUTING.md) to get started!
 
