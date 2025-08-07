@@ -26,8 +26,8 @@ class DatabaseManager {
                 this.db = new Database({
                     host: process.env.MYSQL_HOST || 'your-db-host',
                     user: process.env.MYSQL_USER || 'your-db-user',
-                    password: process.env.MYSQL_PASSWORD || 'your-db-password',
-                    database: process.env.MYSQL_DATABASE || 'your-db-name'
+                    password: process.env.MYSQL_PASSWORD || '',
+                    database: process.env.MYSQL_DATABASE || ''
                 });
                 await this.db.connect();
             }

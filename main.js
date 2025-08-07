@@ -8,6 +8,7 @@ const WindowManager = require('./modules/window/windowManager');
 const APIServer = require('./modules/api/apiServer');
 const SerialManager = require('./modules/serial/serialManager');
 const IPCManager = require('./modules/ipc/ipcManager');
+const WebsocketManager = require('./modules/websocket/websocketManager');
 
 class Application {
     constructor() {
@@ -34,10 +35,16 @@ class Application {
 
             // Initialize serial manager
             this.serialManager = new SerialManager(
-                this.databaseManager.getDatabase(), 
+                this.databaseManager.getDatabase(),
                 this.windowManager.getMainWindow()
             );
             await this.serialManager.initialize();
+            // Initialize WebSocket manager
+            this.websocketManager = new WebsocketManager(
+                this.databaseManager.getDatabase(),
+                this.windowManager.getMainWindow()
+            );
+            await this.websocketManager.initialize();
 
             // Initialize IPC handlers
             this.ipcManager = new IPCManager(
