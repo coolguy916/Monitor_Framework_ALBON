@@ -12,86 +12,140 @@ const WebsocketManager = require('./modules/websocket/websocketManager');
 
 class Application {
     constructor() {
-        this.databaseManager = null;
-        this.windowManager = null;
-        this.apiServer = null;
-        this.serialManager = null;
-        this.ipcManager = null;
+        this.managers = {};
+        this.isInitialized = false;
     }
 
     async initialize() {
+        if (this.isInitialized) return;
+        
         try {
-            // Initialize database
-            this.databaseManager = new DatabaseManager();
-            await this.databaseManager.initialize();
-
-            // Initialize window manager
-            this.windowManager = new WindowManager();
-            this.windowManager.createWindow();
-
-            // Initialize API server
-            this.apiServer = new APIServer(this.databaseManager.getDatabase());
-            this.apiServer.start();
-
-            // Initialize serial manager
-            this.serialManager = new SerialManager(
-                this.databaseManager.getDatabase(),
-                this.windowManager.getMainWindow()
-            );
-            await this.serialManager.initialize();
-            // Initialize WebSocket manager
-            this.websocketManager = new WebsocketManager(
-                this.databaseManager.getDatabase(),
-                this.windowManager.getMainWindow()
-            );
-            await this.websocketManager.initialize();
-
-            // Initialize IPC handlers
-            this.ipcManager = new IPCManager(
-                this.databaseManager.getDatabase(),
-                this.serialManager
-            );
-            this.ipcManager.setupHandlers();
-
-            console.log('Application initialized successfully');
+            // Initialize in dependency order
+            await this._initializeDatabase();
+            this._initializeWindow();
+            await this._initializeServices();
+            this._setupIPC();
+            
+            this.isInitialized = true;
+            console.log('🚀 Application initialized successfully');
         } catch (error) {
-            console.error("Failed to initialize application:", error);
+            console.error('❌ Application initialization failed:', error);
+            await this.cleanup();
             app.quit();
         }
     }
 
+    async _initializeDatabase() {
+        this.managers.database = new DatabaseManager();
+        await this.managers.database.initialize();
+        console.log('✅ Database ready');
+    }
+
+    _initializeWindow() {
+        this.managers.window = new WindowManager();
+        this.managers.window.createWindow();
+        console.log('✅ Window ready');
+    }
+
+    async _initializeServices() {
+        const db = this.managers.database.getDatabase();
+        const mainWindow = this.managers.window.getMainWindow();
+
+        // Initialize services concurrently
+        const servicePromises = [
+            this._initializeAPI(db),
+            // this._initializeSerial(db, mainWindow),
+            this._initializeWebSocket(db, mainWindow)
+        ];
+
+        await Promise.all(servicePromises);
+        console.log('✅ All services ready');
+    }
+
+    async _initializeAPI(db) {
+        this.managers.api = new APIServer(db);
+        this.managers.api.start();
+    }
+
+    // async _initializeSerial(db, mainWindow) {
+    //     this.managers.serial = new SerialManager(db, mainWindow);
+    //     await this.managers.serial.initialize();
+    // }
+
+    async _initializeWebSocket(db, mainWindow) {
+        this.managers.websocket = new WebsocketManager(db, mainWindow);
+        await this.managers.websocket.initialize();
+    }
+
+    _setupIPC() {
+        this.managers.ipc = new IPCManager(
+            this.managers.database.getDatabase(),
+            this.managers.serial,
+            this.managers.websocket // Pass websocket manager to IPC
+        );
+        this.managers.ipc.setupHandlers();
+        console.log('✅ IPC handlers ready');
+    }
+
     async cleanup() {
-        try {
-            if (this.serialManager) {
-                await this.serialManager.close();
-            }
-            if (this.databaseManager) {
-                await this.databaseManager.close();
-            }
-            if (this.apiServer) {
-                await this.apiServer.stop();
-            }
-        } catch (error) {
-            console.error("Error during cleanup:", error);
+        if (!this.isInitialized) return;
+        
+        console.log('🔄 Starting cleanup...');
+        const cleanupPromises = [];
+
+        // Cleanup in reverse dependency order
+        if (this.managers.websocket) {
+            cleanupPromises.push(this.managers.websocket.cleanup().catch(console.error));
         }
+        if (this.managers.serial) {
+            cleanupPromises.push(this.managers.serial.close().catch(console.error));
+        }
+        if (this.managers.api) {
+            cleanupPromises.push(this.managers.api.stop().catch(console.error));
+        }
+        if (this.managers.database) {
+            cleanupPromises.push(this.managers.database.close().catch(console.error));
+        }
+
+        await Promise.allSettled(cleanupPromises);
+        this.isInitialized = false;
+        console.log('✅ Cleanup completed');
+    }
+
+    // Public API for accessing managers
+    getManager(type) {
+        return this.managers[type] || null;
     }
 }
 
 // Application instance
-const application = new Application();
+const app_instance = new Application();
 
-// Electron event handlers
-app.whenReady().then(() => application.initialize());
+// Electron event handlers - clean and compact
+app.whenReady().then(() => app_instance.initialize());
 
 app.on('window-all-closed', async () => {
-    await application.cleanup();
-    if (process.platform !== 'darwin') {
-        app.quit();
-    }
+    await app_instance.cleanup();
+    if (process.platform !== 'darwin') app.quit();
 });
 
 app.on('activate', () => {
     if (require('electron').BrowserWindow.getAllWindows().length === 0) {
-        application.initialize();
+        app_instance.initialize();
     }
 });
+
+// Graceful shutdown on process signals
+process.on('SIGINT', async () => {
+    console.log('\n🛑 Received SIGINT, shutting down gracefully...');
+    await app_instance.cleanup();
+    process.exit(0);
+});
+
+process.on('SIGTERM', async () => {
+    console.log('\n🛑 Received SIGTERM, shutting down gracefully...');
+    await app_instance.cleanup();
+    process.exit(0);
+});
+
+module.exports = app_instance;

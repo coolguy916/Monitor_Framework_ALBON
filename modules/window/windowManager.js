@@ -20,7 +20,7 @@ class WindowManager {
         });
 
         // Load the HTML file
-        this.mainWindow.loadFile(path.join(__dirname, '../../resource', 'view', 'uibaru', 'monitor.html'));
+        this.mainWindow.loadFile(path.join(__dirname, '../../resource', 'uibaru', 'monitor.html'));
 
         // Set fullscreen
         this.mainWindow.setFullScreen(true);
